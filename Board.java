@@ -2,8 +2,11 @@ import java.util.Arrays;
 
 public class Board {
 
+    private final String EMPTY_SIGN = "-";
+
     private int rowNum = 0, colNum = 0;
     private String[][] board;
+    private boolean[][] boardState;
 
     public Board(int rowNum, int colNum) {
         this.rowNum = rowNum;
@@ -13,13 +16,14 @@ public class Board {
 
     private void initBoard() {
         board = new String[rowNum][colNum];
+        boardState = new boolean[rowNum][colNum];
 
-        // Create array containing string for each row in a board
-        String[] tempBoardRow = new String[colNum];
-        Arrays.fill(tempBoardRow, "-");
-
-        // Fill in every row
-        Arrays.fill(board, tempBoardRow);
+        // Fill board with empty sign
+        for (int row = 0; row < rowNum; row++) {
+            for (int col = 0; col < colNum; col++) {
+                board[row][col] = EMPTY_SIGN;
+            }
+        }
     }
 
     public void showBoard() {
@@ -32,7 +36,39 @@ public class Board {
     }
 
     public void setBoardValue(int row, int col, String value) {
+        if (inValidIndex(row, col)) {
+            return;
+        }
+
         board[row][col] = value;
+    }
+
+    public void setBoardState(int row, int col, boolean state) {
+        if (inValidIndex(row, col)) {
+            return;
+        }
+
+        boardState[row][col] = state;
+    }
+
+    public boolean isEmpty(int row, int col) {
+        if (inValidIndex(row, col)) {
+            return false;
+        }
+
+        return board[row][col] == EMPTY_SIGN;
+    }
+
+    public String getBoardValue(int row, int col) {
+        if (inValidIndex(row, col)) {
+            return null;
+        }
+
+        return board[row][col];
+    }
+
+    public boolean inValidIndex(int row, int col) {
+        return row < 0 || col < 0 || row >= rowNum || col >= colNum;
     }
 
     public String[][] getBoard() {
