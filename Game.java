@@ -130,7 +130,19 @@ public class Game {
 
     private void showGame() {
         System.out.println("------------------");
+        showWords();
         board.showBoard();
+    }
+
+    private void showWords() {
+        System.out.println("WORDS:");
+        System.out.println("------------");
+        for (String word : words) {
+            // Show only word that has not been removed
+            if (!word.equals(REMOVED_SIGN)) {
+                System.out.println(word);
+            }
+        }
     }
 
     private void randomAlphabetToBoard() {
@@ -186,7 +198,6 @@ public class Game {
             }
         }
 
-        System.out.println(direction);
         setWordToBoard(initRow, initCol, word, direction);
         
     }
@@ -313,12 +324,7 @@ public class Game {
                     currentCol = initCol;
                     break;
             }
-            
-            // System.out.println(currentRow);
-            // System.out.println(currentCol);
-            // System.out.println("-------------");
             String c = String.valueOf(word.charAt(i));
-            System.out.println(c);
             board.setBoardValue(currentRow, currentCol, c);
         }
     }
