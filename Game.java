@@ -19,10 +19,28 @@ public class Game {
         for (String word : words) {
             setWordToBoard(word);
         }
+
+        randomAlphabetToBoard();
     }
 
     public void showGame() {
         board.showBoard();
+    }
+
+    private void randomAlphabetToBoard() {
+        Random rand = new Random();
+        String alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        for (int i = 0; i < rowNum; i++) {
+            for (int j = 0; j < colNum; j++) {
+                if (board.isEmpty(i, j)) {
+                    // Random alphabet
+                    int randIndex = rand.nextInt(alphabets.length());
+                    String c = String.valueOf(alphabets.charAt(randIndex));
+                    board.setBoardValue(i, j, c);
+                }
+            }
+        }
     }
 
     private void setWordToBoard(String word) {
