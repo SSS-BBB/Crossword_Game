@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        Game game = new Game(9, 9, new String[]{"KAOW", "MATH", "SCI", "JAVA"});
+        Game game = new Game(9, 9, new String[]{"KAOW", "MATH", "SCI", "JAVA", "SUPHAWIT", "BUAPHAN"});
         game.playGame();
     }
 }

@@ -21,7 +21,6 @@ public class Game {
     public void playGame() {
         initGame();
 
-        Scanner scan = new Scanner(System.in);
 
         while (countWord() > 0) {
             showGame();
@@ -162,43 +161,76 @@ public class Game {
     }
 
     private void setWordToBoard(String word) {
-
-        Random rand = new Random();
-        int initRow = rand.nextInt(rowNum);
-        int initCol = rand.nextInt(colNum);
-
-        String c = String.valueOf(word.charAt(0));
-
-        // Make sure it's not empty
-        while (!board.isEmpty(initRow, initCol) && (board.getBoardValue(initRow, initCol) != c)) {
-            initRow = rand.nextInt(rowNum);
-            initCol = rand.nextInt(colNum);
-        }
-
-        // Random direction of the word 
-        int direction = rand.nextInt(8);
-        boolean check = checkDirection(initRow, initCol, word, direction);
-
-        // Make sure the direction we chose is valid
-        int checkCount = 0;
         final int CHECK_LIMIT = 1000;
-        while (!check) {
-            direction = rand.nextInt(8);
-            check = checkDirection(initRow, initCol, word, direction);
-            checkCount++;
+        int outerWhileCount = 0;
+        while (true) {
+            Random rand = new Random();
+            int initRow = rand.nextInt(rowNum);
+            int initCol = rand.nextInt(colNum);
 
-            // No possible point in board for this word
-            if (checkCount > CHECK_LIMIT) {
+            int initWhileCount = 0;
+            // Make sure it's not empty
+            while (!board.isEmpty(initRow, initCol)) {
+                initRow = rand.nextInt(rowNum);
+                initCol = rand.nextInt(colNum);
+                initWhileCount++;
+
+                if (initWhileCount > CHECK_LIMIT) {
+                    initRow = -1;
+                    break; // break from init loop
+                }
+            }
+
+            if (initRow == -1) {
+                // Remove the word from the list
                 for (int i = 0; i < words.length; i++) {
                     if (words[i].equals(word)) {
                         words[i] = REMOVED_SIGN;
+                        break; // break from for loop
                     }
                 }
-                return;
+                break; // break from while loop
+            }
+
+            // Random direction of the word 
+            int direction = rand.nextInt(8);
+            boolean check = checkDirection(initRow, initCol, word, direction);
+
+            // Make sure the direction we chose is valid
+            int checkCount = 0;
+            while (!check) {
+                direction = rand.nextInt(8);
+                check = checkDirection(initRow, initCol, word, direction);
+                checkCount++;
+
+                // No possible direction in board for this word in this position
+                if (checkCount > CHECK_LIMIT) {
+                    direction = -1;
+                    break; // break from direction while loop
+                }
+            }
+
+            // Find direction in board
+            if (direction != -1) {
+                setWordToBoard(initRow, initCol, word, direction);
+                break; // break from outer while loop
+            }
+
+            // Can't find direction in board for this postion (Random new position)
+            outerWhileCount++;
+
+            // Can't find postion and direction that will fit the word to the board
+            if (outerWhileCount > CHECK_LIMIT) {
+                for (int i = 0; i < words.length; i++) {
+                    // Remove the word from the list
+                    if (words[i].equals(word)) {
+                        words[i] = REMOVED_SIGN;
+                        break; // break from for loop
+                    }
+                }
+                break; // break from while loop
             }
         }
-
-        setWordToBoard(initRow, initCol, word, direction);
         
     }
 
@@ -265,8 +297,7 @@ public class Game {
                     break;
             }
             
-            String c = String.valueOf(word.charAt(i));
-            if (!board.isEmpty(currentRow, currentCol) && (board.getBoardValue(currentRow, currentCol) != c)) {
+            if (!board.isEmpty(currentRow, currentCol)) {
                 return false;
             }
         }
