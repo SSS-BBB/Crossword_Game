@@ -21,7 +21,7 @@ public class Game {
     public void playGame() {
         initGame();
 
-
+        long startTime = System.currentTimeMillis();
         while (countWord() > 0) {
             showGame();
 
@@ -69,9 +69,11 @@ public class Game {
                 }
             }
         }
+        long endTime = System.currentTimeMillis();
 
         System.out.println("-----------------------------");
         System.out.println("You got all the Word!, Congrats!");
+        System.out.println("Time: " + (endTime - startTime) / 1000 + " seconds");
         System.out.println("-----------------------------");
     }
 
