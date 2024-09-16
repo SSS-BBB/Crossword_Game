@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class Board {
 
-    private final String EMPTY_SIGN = "-";
+    public final String EMPTY_SIGN = "-";
 
     private int rowNum = 0, colNum = 0;
     private String[][] board;

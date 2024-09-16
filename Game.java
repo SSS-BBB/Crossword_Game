@@ -23,7 +23,7 @@ public class Game {
 
         Scanner scan = new Scanner(System.in);
 
-        while (true) {
+        while (countWord() > 0) {
             showGame();
 
             int row1, row2, col1, col2;
@@ -50,8 +50,35 @@ public class Game {
                 }
                 selectedWord += c;
             }
-            System.out.println(selectedWord);
+
+            if (checkWord(selectedWord)) {
+                // Correct Word Selected
+                System.out.println(selectedWord + " is a word in the list!");
+
+                // Remove the word from the board
+                for (int i = 0; i <= dis; i++) {
+                    board.setBoardValue(row1 + (i*rowDir), col1 + (i*colDir), board.EMPTY_SIGN);
+                }
+            }
+            else {
+                // Iorrect Word Selected
+                System.out.println(selectedWord + " is not in the lis!");
+            }
         }
+
+        System.out.println("-----------------------------");
+        System.out.println("You got all the Word!, Congrats!");
+        System.out.println("-----------------------------");
+    }
+
+    private boolean checkWord(String selectedWord) {
+        for (int i = 0; i < words.length; i++) {
+            if (words[i].equals(selectedWord)) {
+                words[i] = REMOVED_SIGN;
+                return true;
+            }
+        }
+        return false;
     }
 
     private int inputIndex(String inputMsg, int dir) {
@@ -88,6 +115,7 @@ public class Game {
     }
 
     private void initGame() {
+
         for (String word : words) {
             setWordToBoard(word);
         }
