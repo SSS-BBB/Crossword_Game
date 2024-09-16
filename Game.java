@@ -45,7 +45,7 @@ public class Game {
             for (int i = 0; i <= dis; i++) {
                 String c = board.getBoardValue(row1 + (i*rowDir), col1 + (i*colDir));
                 if (c == null) {
-                    selectedWord = "The input is invalid.";
+                    selectedWord = "";
                     break;
                 }
                 selectedWord += c;
@@ -61,8 +61,13 @@ public class Game {
                 }
             }
             else {
-                // Iorrect Word Selected
-                System.out.println(selectedWord + " is not in the lis!");
+                // Wrong Word Selected
+                if (selectedWord != "") {
+                    System.out.println(selectedWord + " is not in the lis!");
+                }
+                else {
+                    System.out.println("The input is invalid.");
+                }
             }
         }
 
@@ -84,11 +89,11 @@ public class Game {
     private int inputIndex(String inputMsg, int dir) {
         Scanner scan = new Scanner(System.in);
         System.out.print(inputMsg);
-        int index = scan.nextInt();
+        int index = scan.nextInt() - 1;
 
         while (!checkIndex(index, dir)) {
             System.out.print("The input is invalid, Please enter again: ");
-            index = scan.nextInt();
+            index = scan.nextInt() - 1;
         }
 
         return index;

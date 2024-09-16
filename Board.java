@@ -27,7 +27,19 @@ public class Board {
     }
 
     public void showBoard() {
+
+        // Show Column number
+        System.out.print("  ");
+        for (int col = 0; col < colNum; col++) {
+            System.out.print((col + 1) + " ");
+        }
+        System.out.println();
+
         for (int row = 0; row < rowNum; row++) {
+            // Show row number
+            System.out.print((row + 1) + " ");
+
+            // Show value in the board
             for (int col = 0; col < colNum; col++) {
                 System.out.print(board[row][col] + " ");
             }
