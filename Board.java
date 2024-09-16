@@ -36,7 +36,7 @@ public class Board {
     }
 
     public void setBoardValue(int row, int col, String value) {
-        if (inValidIndex(row, col)) {
+        if (isInValidIndex(row, col)) {
             return;
         }
 
@@ -44,7 +44,7 @@ public class Board {
     }
 
     public void setBoardState(int row, int col, boolean state) {
-        if (inValidIndex(row, col)) {
+        if (isInValidIndex(row, col)) {
             return;
         }
 
@@ -52,7 +52,7 @@ public class Board {
     }
 
     public boolean isEmpty(int row, int col) {
-        if (inValidIndex(row, col)) {
+        if (isInValidIndex(row, col)) {
             return false;
         }
 
@@ -60,14 +60,14 @@ public class Board {
     }
 
     public String getBoardValue(int row, int col) {
-        if (inValidIndex(row, col)) {
+        if (isInValidIndex(row, col)) {
             return null;
         }
 
         return board[row][col];
     }
 
-    public boolean inValidIndex(int row, int col) {
+    public boolean isInValidIndex(int row, int col) {
         return row < 0 || col < 0 || row >= rowNum || col >= colNum;
     }
 
